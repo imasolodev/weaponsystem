@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "DemoCharacter.generated.h"
 
+class UInventoryComponent;
 class USpringArmComponent;
 class UCameraComponent;
 
@@ -17,6 +18,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void PreInitializeComponents() override;
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -25,7 +27,11 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCameraComponent> FollowCamera;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInventoryComponent> InventoryComponent;
+
 public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	FORCEINLINE UInventoryComponent* GetInventoryComponent() const { return InventoryComponent; }
 };

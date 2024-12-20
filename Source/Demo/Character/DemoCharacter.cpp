@@ -1,6 +1,7 @@
 #include "Demo/Character/DemoCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Demo/Components/InventoryComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -29,9 +30,18 @@ ADemoCharacter::ADemoCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>("Inventory Component");
 }
 
 void ADemoCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void ADemoCharacter::PreInitializeComponents()
+{
+	Super::PreInitializeComponents();
+
+	InventoryComponent->PlayerCharacter = this;
 }

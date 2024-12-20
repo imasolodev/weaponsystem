@@ -17,18 +17,27 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	virtual void PostLoad() override;
+	virtual void PostInitializeComponents() override;
 
-private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<USkeletalMeshComponent> WeaponMesh;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<USphereComponent> PickupSphere;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UWeaponComponent> WeaponComponent;
+	
+	UPROPERTY(ReplicatedUsing=OnRep_bOverlapEventsEnabled)
+	bool bOverlapEventsEnabled = false;
 
+public:
+	virtual void Tick(float DeltaTime) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UFUNCTION()
+	void OnRep_bOverlapEventsEnabled();
+	
 	UFUNCTION(Server, Reliable)
 	void Server_SetWeaponPhysics(const bool bNewPhysics);
 
@@ -38,8 +47,8 @@ private:
 	UFUNCTION(Server, Reliable)
 	void Server_SetOverlapEvents(const bool bNewEvent);
 
-public:
-	virtual void Tick(float DeltaTime) override;
+	UFUNCTION(Client, Reliable)
+	void Client_SetOverlapEvents(const bool bNewEvent);
 
 	FORCEINLINE USkeletalMeshComponent* GetWeaponMesh() const { return WeaponMesh; }
 	FORCEINLINE USphereComponent* GetPickupSphere() const { return PickupSphere; }
