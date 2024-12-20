@@ -8,4 +8,10 @@ ADemoGameMode::ADemoGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+
+	static ConstructorHelpers::FClassFinder<AController> DemoControllerBP(TEXT("/Game/ThirdPerson/Blueprints/BP_DemoController"));
+	if (DemoControllerBP.Class)
+	{
+		PlayerControllerClass = DemoControllerBP.Class;
+	}
 }
