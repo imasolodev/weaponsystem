@@ -1,0 +1,12 @@
+Binaries
+Config
+Content
+DerivedDataCache
+Intermediate
+Saved
+
+.idea
+.vs
+*.vsconfig
+*.sln
+*.uproject
