@@ -33,4 +33,11 @@ private:
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	FORCEINLINE uint16 GetAmmoCount() const { return Ammo; }
+	FORCEINLINE uint8 GetClipCount() const { return Clip; }
+	FORCEINLINE FWeaponData GetWeaponData() const { return WeaponData; }
+	FORCEINLINE FName GetWeaponID() const { return WeaponData.ID; }
+	FORCEINLINE FName GetWeaponSocket() const { return WeaponData.Socket; }
+	FORCEINLINE EWeaponType GetWeaponType() const { return WeaponData.WeaponType; }
 };
